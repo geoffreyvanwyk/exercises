@@ -1,0 +1,18 @@
+{
+  "name": "systemovich-word-count",
+  "main": "./lib/systemovich-word-count",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [
+  ],
+  "activationCommands": {
+    "atom-workspace": "systemovich-word-count:toggle"
+  },
+  "repository": "https://github.com/atom/systemovich-word-count",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
