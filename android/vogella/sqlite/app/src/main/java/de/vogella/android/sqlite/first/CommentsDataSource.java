@@ -10,16 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by systemovich on 2/15/17.
+ * Data access object (DAO) for executing INSERT, SELECT, and DELETE SQL queries against the
+ * "comments" database table.
+ *
+ * When SELECTing or INSERTing, the relevant methods return Comment objects. It manages the
+ * connection to the database via indirectly via the CommentsOpenHelper class.
  */
-
 public class CommentsDataSource {
     private SQLiteDatabase db;
-    private MySQLiteHelper dbHelper;
+    private CommentsOpenHelper dbHelper;
 
     private String[] allColumns = {
-            MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_COMMENT
+            CommentsOpenHelper.COLUMN_ID,
+            CommentsOpenHelper.COLUMN_COMMENT
     };
 
     private Comment cursorToComment(Cursor cursor) {
@@ -31,7 +34,7 @@ public class CommentsDataSource {
     }
 
     public CommentsDataSource(Context context) {
-        dbHelper = new MySQLiteHelper(context);
+        dbHelper = new CommentsOpenHelper(context);
     }
 
     public void open() throws SQLException {
@@ -44,13 +47,13 @@ public class CommentsDataSource {
 
     public Comment createComment(String comment) {
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
-        long insertId = db.insert(MySQLiteHelper.TABLE_COMMENTS, null, values);
+        values.put(CommentsOpenHelper.COLUMN_COMMENT, comment);
+        long insertId = db.insert(CommentsOpenHelper.TABLE_COMMENTS, null, values);
 
         Cursor cursor = db.query(
-            MySQLiteHelper.TABLE_COMMENTS,
+            CommentsOpenHelper.TABLE_COMMENTS,
             allColumns,
-            MySQLiteHelper.COLUMN_ID +  " = " + insertId,
+            CommentsOpenHelper.COLUMN_ID +  " = " + insertId,
             null,
             null,
             null,
@@ -66,7 +69,7 @@ public class CommentsDataSource {
 
     public List<Comment> getAllComments() {
         List<Comment> comments = new ArrayList<>();
-        Cursor cursor = db.query(MySQLiteHelper.TABLE_COMMENTS, allColumns, null, null, null, null, null);
+        Cursor cursor = db.query(CommentsOpenHelper.TABLE_COMMENTS, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
 
         while (! cursor.isAfterLast()) {
@@ -85,8 +88,8 @@ public class CommentsDataSource {
         System.out.println(String.format("Comment with id %d deleted.", id));
 
         db.delete(
-            MySQLiteHelper.TABLE_COMMENTS,
-            MySQLiteHelper.COLUMN_ID + " = ? ",
+            CommentsOpenHelper.TABLE_COMMENTS,
+            CommentsOpenHelper.COLUMN_ID + " = ? ",
             new String[] {String.valueOf(id)}
         );
     }

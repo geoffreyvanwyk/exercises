@@ -6,10 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by systemovich on 2/15/17.
+ * Creates the "comments.db" database if it does not exist, upgrades or downgrades it, and creates
+ * the database tables.
  */
-
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class CommentsOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "comments.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -23,7 +23,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         COLUMN_COMMENT + " TEXT NOT NULL " +
         " ); ";
 
-    public MySQLiteHelper(Context context) {
+    public CommentsOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -35,7 +35,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(
-            MySQLiteHelper.class.getName(),
+            CommentsOpenHelper.class.getName(),
             String.format(
                 "Upgrading database from version %d to %d, which will destroy all old data.",
                 oldVersion,

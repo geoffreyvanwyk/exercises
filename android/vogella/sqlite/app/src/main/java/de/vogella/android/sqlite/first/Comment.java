@@ -1,7 +1,7 @@
 package de.vogella.android.sqlite.first;
 
 /**
- * Created by systemovich on 2/15/17.
+ * A model of a comment.
  */
 
 public class Comment {
